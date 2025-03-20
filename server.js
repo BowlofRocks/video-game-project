@@ -1,15 +1,17 @@
 /**
  * Imports
  */
-import configNodeEnv from './src/middleware/node-env.js';
+import accountRoute from "./src/routes/account/index.js";
+import configNodeEnv from "./src/middleware/node-env.js";
 import express from "express";
-import fileUploads from './src/middleware/file-uploads.js';
-import homeRoute from './src/routes/index.js';
-import layouts from './src/middleware/layouts.js';
+import fileUploads from "./src/middleware/file-uploads.js";
+import homeRoute from "./src/routes/index.js";
+import layouts from "./src/middleware/layouts.js";
 import path from "path";
-import { configureStaticPaths } from './src/utils/index.js';
-import { fileURLToPath } from 'url';
-import { testDatabase } from './src/models/index.js';
+import reviewRoute from "./src/routes/review/index.js";
+import { configureStaticPaths } from "./src/utils/index.js";
+import { fileURLToPath } from "url";
+import { testDatabase } from "./src/models/index.js";
 
 /**
  * Global Variables
@@ -32,12 +34,12 @@ app.use(configNodeEnv);
 configureStaticPaths(app);
 
 // Set EJS as the view engine and record the location of the views directory
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'src/views'));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "src/views"));
 
 // Set Layouts middleware to automatically wrap views in a layout and configure default layout
-app.set('layout default', 'default');
-app.set('layouts', path.join(__dirname, 'src/views/layouts'));
+app.set("layout default", "default");
+app.set("layouts", path.join(__dirname, "src/views/layouts"));
 app.use(layouts);
 
 // Middleware to process multipart form data with file uploads
@@ -53,34 +55,36 @@ app.use(express.urlencoded({ extended: true }));
  * Routes
  */
 
-app.use('/', homeRoute);
+app.use("/", homeRoute);
+app.use("/account", accountRoute);
+app.use("/review", reviewRoute);
 
 /**
  * Start the server
  */
 
 // When in development mode, start a WebSocket server for live reloading
-if (mode.includes('dev')) {
-    const ws = await import('ws');
+if (mode.includes("dev")) {
+  const ws = await import("ws");
 
-    try {
-        const wsPort = parseInt(port) + 1;
-        const wsServer = new ws.WebSocketServer({ port: wsPort });
+  try {
+    const wsPort = parseInt(port) + 1;
+    const wsServer = new ws.WebSocketServer({ port: wsPort });
 
-        wsServer.on('listening', () => {
-            console.log(`WebSocket server is running on port ${wsPort}`);
-        });
+    wsServer.on("listening", () => {
+      console.log(`WebSocket server is running on port ${wsPort}`);
+    });
 
-        wsServer.on('error', (error) => {
-            console.error('WebSocket server error:', error);
-        });
-    } catch (error) {
-        console.error('Failed to start WebSocket server:', error);
-    }
+    wsServer.on("error", (error) => {
+      console.error("WebSocket server error:", error);
+    });
+  } catch (error) {
+    console.error("Failed to start WebSocket server:", error);
+  }
 }
 
 // Start the Express server
 app.listen(port, async () => {
-    await testDatabase();
-    console.log(`Server running on http://127.0.0.1:${port}`);
+  await testDatabase();
+  console.log(`Server running on http://127.0.0.1:${port}`);
 });
