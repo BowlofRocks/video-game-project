@@ -9,7 +9,6 @@ import homeRoute from "./src/routes/index.js";
 import layouts from "./src/middleware/layouts.js";
 import path from "path";
 import reviewRoute from "./src/routes/review/index.js";
-import videoGameRoute from "./src/routes/video-game/index.js";
 import { configureStaticPaths } from "./src/utils/index.js";
 import { fileURLToPath } from "url";
 import { testDatabase } from "./src/models/index.js";
@@ -59,7 +58,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", homeRoute);
 app.use("/account", accountRoute);
 app.use("/review", reviewRoute);
-app.use("/video-game", videoGameRoute);
 
 /**
  * Start the server
