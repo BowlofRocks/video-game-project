@@ -12,6 +12,10 @@ import reviewRoute from "./src/routes/review/index.js";
 import { configureStaticPaths } from "./src/utils/index.js";
 import { fileURLToPath } from "url";
 import { testDatabase } from "./src/models/index.js";
+import {
+  notFoundHandler,
+  globalErrorHandler,
+} from "./src/middleware/error-handler.js";
 
 /**
  * Global Variables
@@ -58,6 +62,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", homeRoute);
 app.use("/account", accountRoute);
 app.use("/review", reviewRoute);
+
+// Apply error handlers
+app.use(notFoundHandler);
+app.use(globalErrorHandler);
 
 /**
  * Start the server
