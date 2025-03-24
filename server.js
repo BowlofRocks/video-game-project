@@ -11,6 +11,7 @@ import path from "path";
 import reviewRoute from "./src/routes/review/index.js";
 import { configureStaticPaths } from "./src/utils/index.js";
 import { fileURLToPath } from "url";
+import { setupDatabase } from "./src/db/index.js";
 import { testDatabase } from "./src/models/index.js";
 import {
   notFoundHandler,
@@ -91,8 +92,15 @@ if (mode.includes("dev")) {
   }
 }
 
-// Start the Express server
-app.listen(port, async () => {
-  await testDatabase();
-  console.log(`Server running on http://127.0.0.1:${port}`);
-});
+// Start the Express server only after setting up the database
+setupDatabase(true) // Pass 'true' to enable SQL logging
+  .then(() => {
+    app.listen(port, async () => {
+      await testDatabase();
+      console.log(`🚀 Server running on http://127.0.0.1:${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Database setup failed:", err);
+    process.exit(1); // Stop server if the database setup fails
+  });

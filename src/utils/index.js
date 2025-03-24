@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-
+import { getCategories } from "../models/category/index.js";
 /** @type {Array<{route: string, dir: string}|string>} Static path configurations */
 const staticPaths = [
   { route: "/css", dir: "public/css" },
@@ -51,22 +51,20 @@ const configureStaticPaths = (app) => {
  * @returns {string} The navigation menu.
  */
 const getNav = async () => {
-  // const categories = await getCategories();
-  // let nav = "<nav><ul>";
-  // categories.forEach((row) => {
-  //   const id = row.category_id;
-  //   const name = row.category_name;
-  //   nav += `<li><a href="/category/view/${id}">${name}</a></li>`;
-  // });
-  // return `
-  //   ${nav}
-  //       <li><a href="/game/add">Add Game</a></li>
-  //       <li><a href="/category/add">Add Category</a></li>
-  //       <li><a href="/category/delete">Delete Category</a></li>
-  //       <li><a href="/About">About Me</a></li>
-  //       <li><a href="/account/login">Login</a></li>
-  //       <li><a href="/account/register">Register</a></li>
-  //       </ul>
-  //   </nav>`;
+  const categories = await getCategories();
+  let nav = "<nav><ul>";
+  categories.forEach((row) => {
+    const id = row.id;
+    const name = row.name;
+    nav += `<li><a href="/category/view/${id}">${name}</a></li>`;
+  });
+  return `
+    ${nav}
+        <li><a href="/">Home</a></li>
+        <li><a href="/About">About Me</a></li>
+        <li><a href="/account/login">Login</a></li>
+        <li><a href="/account/register">Register</a></li>
+        </ul>
+    </nav>`;
 };
 export { configureStaticPaths, getNav };
