@@ -207,3 +207,24 @@ body {
   border-radius: 5px;
   margin-bottom: 10px;
 }
+
+.reviews-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.review-card {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.review-card img {
+  width: 100px; /* Smaller image size */
+  height: auto;
+  border-radius: 5px;
+}

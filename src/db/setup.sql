@@ -17,6 +17,7 @@ CREATE TABLE games (
     title VARCHAR(255) UNIQUE NOT NULL,
     genre VARCHAR(100),
     release_date DATE,
+    image_path TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -67,4 +68,28 @@ CREATE TABLE categories (
 -- 8    Insert Static Category: "Reviews"
 INSERT INTO categories (name) VALUES ('Reviews')
 ON CONFLICT (name) DO NOTHING;
+
+-- Insert initial video games
+INSERT INTO games (id, title, genre, release_date, image_path) VALUES
+(1, 'Baldurs Gate 3', 'Action-Adventure', '2023-09-03', '/images/games/baldurs_gate_final.jpg'),
+(2, 'Star Wars: Knights of the Old Republic', 'RPG', '2003-07-15', '/images/games/KotOR_Cover.webp'),
+(3, 'Skyrim', 'RPG', '2011-11-11', '/images/games/The_Elder_Scrolls_V_Skyrim_cover.png');
+
+-- Insert sample users (since reviews need valid user_id references)
+INSERT INTO users (username, email, password, role) VALUES
+('gamer123', 'gamer123@example.com', 'hashedpassword1', 'user'),
+('rpgfan', 'rpgfan@example.com', 'hashedpassword2', 'user'),
+('zeldaMaster', 'zelda@example.com', 'hashedpassword3', 'admin')
+ON CONFLICT (email) DO NOTHING;
+
+-- Insert sample reviews (referencing valid users & games)
+INSERT INTO reviews (user_id, game_id, rating, content) VALUES
+-- User "gamer123" reviewing "Baldur's Gate 3"
+(1, 1, 10, 'An absolutely amazing RPG with deep storytelling and engaging gameplay!'),
+
+-- User "rpgfan" reviewing "Star Wars: KOTOR"
+(2, 2, 9, 'One of the best Star Wars games ever made. The story twists are legendary!'),
+
+-- User "zeldaMaster" reviewing "Skyrim"
+(3, 3, 8, 'A massive open-world experience with endless possibilities. Dragons everywhere!');
 

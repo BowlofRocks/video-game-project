@@ -1,1 +1,21 @@
-<h1>Video Game Reviews</h1>
+<h1><%= title %></h1>
+
+<div class="reviews-container">
+  <% if (reviews.length > 0) { %>
+    <% reviews.forEach((review) => { %>
+      <div class="review-card">
+        <img 
+          src="<%= review.image_path || 'https://placehold.co/300x300/jpg' %>" 
+          alt="<%= review.game_title %> Cover"
+          class="review-image"
+        />
+        <h3><%= review.game_title %> - Rated <%= review.rating %>/10</h3>
+        <p><strong>By:</strong> <%= review.reviewer %></p>
+        <p><%= review.content %></p>
+        <p><em>Posted on: <%= new Date(review.created_at).toLocaleDateString() %></em></p>
+      </div>
+    <% }); %>
+  <% } else { %>
+    <p>No reviews available.</p>
+  <% } %>
+</div>

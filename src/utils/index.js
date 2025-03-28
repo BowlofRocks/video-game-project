@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { getCategories } from "../models/category/index.js";
 /** @type {Array<{route: string, dir: string}|string>} Static path configurations */
 const staticPaths = [
   { route: "/css", dir: "public/css" },
@@ -51,15 +50,10 @@ const configureStaticPaths = (app) => {
  * @returns {string} The navigation menu.
  */
 const getNav = async () => {
-  const categories = await getCategories();
   let nav = "<nav><ul>";
-  categories.forEach((row) => {
-    const id = row.id;
-    const name = row.name;
-    nav += `<li><a href="/category/view/${id}">${name}</a></li>`;
-  });
   return `
     ${nav}
+        <li><a href="/review">Video Game Reviews</a></li>
         <li><a href="/">Home</a></li>
         <li><a href="/About">About Me</a></li>
         <li><a href="/account/login">Login</a></li>
