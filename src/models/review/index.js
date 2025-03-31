@@ -31,4 +31,35 @@ const getReviewsByGame = async (gameId) => {
   return result.rows; // Return the rows from the result set
 };
 
-export { getAllReviews, getReviewsByGame };
+// Function to add a review to the database
+const addReview = async (gameId, userId, rating, content) => {
+  const db = await dbPromise;
+  const query = `
+    INSERT INTO reviews (game_id, user_id, rating, content)
+    VALUES ($1, $2, $3, $4)
+  `;
+  await db.query(query, [gameId, userId, rating, content]); // Execute the query with parameters
+};
+
+const getGames = async () => {
+  const db = await dbPromise;
+  const query = `
+    SELECT id, title, genre, release_date, image_path, created_at
+    FROM games
+    ORDER BY title ASC;
+  `;
+  const result = await db.query(query);
+  return result.rows;
+};
+
+// Function to delete a review
+const deleteReview = async (reviewId) => {
+  const db = await dbPromise; // Wait for the connection to be established
+  const query = `
+    DELETE FROM reviews
+    WHERE id = $1;
+  `;
+  await db.query(query, [reviewId]); // Execute the query to delete the review
+};
+
+export { getAllReviews, getReviewsByGame, addReview, getGames, deleteReview };
