@@ -3,11 +3,14 @@
  */
 import accountRoute from "./src/routes/account/index.js";
 import configNodeEnv from "./src/middleware/node-env.js";
+import contactsRoute from "./src/routes/contacts/index.js";
 import express from "express";
 import fileUploads from "./src/middleware/file-uploads.js";
+// import flashMessages from "./src/middleware/flash-messages.js";
 import homeRoute from "./src/routes/index.js";
 import layouts from "./src/middleware/layouts.js";
 import path from "path";
+// import { Pool } from "pg";
 import reviewRoute from "./src/routes/review/index.js";
 import { configureStaticPaths } from "./src/utils/index.js";
 import { fileURLToPath } from "url";
@@ -25,7 +28,32 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const mode = process.env.NODE_ENV;
+// const pgStore = pgSession(session);
+// const pool = new Pool({
+//   connectionString: process.env.DB_URL, // Your PostgreSQL connection string
+//   ssl:
+//     process.env.NODE_ENV === "production"
+//       ? { rejectUnauthorized: false }
+//       : false,
+// });
 const port = process.env.PORT;
+
+// app.use(
+//   session({
+//     store: new pgStore({
+//       pool, // Use the PostgreSQL connection pool
+//       tableName: "session", // You may need to create this table
+//     }),
+//     secret: process.env.SESSION_SECRET || "default-secret",
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+//       httpOnly: true,
+//       maxAge: 1000 * 60 * 60 * 24, // 1 day
+//     },
+//   })
+// );
 
 /**
  * Create and configure the Express server
@@ -37,6 +65,9 @@ app.use(configNodeEnv);
 
 // Configure static paths (public dirs) for the Express application
 configureStaticPaths(app);
+
+// Middleware to handle flash messages
+// app.use(flashMessages);
 
 // Set EJS as the view engine and record the location of the views directory
 app.set("view engine", "ejs");
@@ -63,6 +94,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", homeRoute);
 app.use("/account", accountRoute);
 app.use("/review", reviewRoute);
+app.use("/contacts", contactsRoute);
 
 // Apply error handlers
 app.use(notFoundHandler);

@@ -55,7 +55,7 @@ const getNav = async () => {
     ${nav}
         <li><a href="/review">Video Game Reviews</a></li>
         <li><a href="/">Home</a></li>
-        <li><a href="/About">About Me</a></li>
+        <li><a href="/contacts">Contact Me</a></li>
         <li><a href="/account/login">Login</a></li>
         <li><a href="/account/register">Register</a></li>
         </ul>

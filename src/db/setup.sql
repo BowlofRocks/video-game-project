@@ -42,9 +42,6 @@ CREATE TABLE comments (
 
 -- 5️⃣ Messages Table (Stores contact form submissions)
 CREATE TABLE messages (
-    id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id) ON DELETE SET NULL,
-    name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL,
     message TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
@@ -93,3 +90,12 @@ INSERT INTO reviews (user_id, game_id, rating, content) VALUES
 -- User "zeldaMaster" reviewing "Skyrim"
 (3, 3, 8, 'A massive open-world experience with endless possibilities. Dragons everywhere!');
 
+
+-- Inset session data
+CREATE TABLE "session" (
+    "sid" VARCHAR NOT NULL PRIMARY KEY,
+    "sess" JSON NOT NULL,
+    "expire" TIMESTAMP(6) NOT NULL
+);
+
+CREATE INDEX "IDX_session_expire" ON "session" ("expire");
