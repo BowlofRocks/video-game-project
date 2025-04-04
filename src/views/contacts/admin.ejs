@@ -1,0 +1,26 @@
+<main>
+  <h1>Admin Panel - Contact Messages</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Message</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (messages.length > 0) { %> <% messages.forEach(message => { %>
+      <tr>
+        <td><%= message.email %></td>
+        <td><%= message.message %></td>
+        <td><%= new Date(message.created_at).toLocaleString() %></td>
+      </tr>
+      <% }); %> <% } else { %>
+      <tr>
+        <td colspan="3">No messages found.</td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</main>

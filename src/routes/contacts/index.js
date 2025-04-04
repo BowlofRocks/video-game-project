@@ -6,6 +6,12 @@ router.get("/", async (req, res) => {
   res.render("contacts/index", { title: "Contacts Page" });
 });
 
+router.get("/admin", async (req, res) => {
+  const messages = await getAllMessages(); // Fetch messages from DB
+  console.log("Fetched messages:", messages); // Debugging
+  res.render("contacts/admin", { title: "Admin Panel", messages }); // Pass messages to EJS
+});
+
 // Handle form submission
 router.post("/submit-contact", async (req, res) => {
   const { email, message } = req.body;
